@@ -1,4 +1,4 @@
-﻿"""
+"""
  * Copyright 2020, Departamento de sistemas y Computación,
  * Universidad de Los Andes
  *
@@ -28,6 +28,7 @@
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
+from DISClib.ADT import orderedmap as om
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
@@ -39,6 +40,25 @@ los mismos.
 
 # Construccion de modelos
 
+def newCatalog():
+    info = {"UFOS": None,
+             "cities": None           
+                        }
+
+    info["UFOS"] = lt.newList('SINGLE_LINKED')
+    info["cities"] = om.newMap(omaptype='RBT')
+
+    return info
+
+def addUfo(info,ufo,contador):
+    lt.addLast(info['UFOS'], ufo)
+    if not(lt.isPresent(om.valueSet(info["cities"]),[0,ufo["city"]])):
+        om.put(info["cities"],contador,[0,ufo["city"]])
+        contador +=1
+    return contador
+
+
+
 # Funciones para agregar informacion al catalogo
 
 # Funciones para creacion de datos
@@ -48,3 +68,4 @@ los mismos.
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
+
