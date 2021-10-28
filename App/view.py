@@ -24,7 +24,31 @@ import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
+from DISClib.ADT import orderedmap as om
 assert cf
+
+def initCatalog():
+    return controller.initCatalog()
+
+def loadData(catalog):
+    controller.loadData(catalog)
+
+# Requisito 1
+def avistamientosCiudad():
+    pass
+# Requisito 2
+def avistamientosDuracion():
+    pass
+# Requisito 3
+def avistamientosSegunHora():
+    pass
+# Requisito 4
+def avistamientosRango():
+    pass
+# Requisito 5
+def avistamientosZona():
+    pass
+
 
 
 """
@@ -37,8 +61,11 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
-
+    print("2- Contar los avistamientos en una ciudad")
+    print("3- Contar los avistamientos por duración")
+    print("4- Contar avistamientos por Hora/Minutos del día")
+    print("5- Contar los avistamientos en un rango de fechas")
+    print("6- Contar los avistamientos de una Zona Geográfica")
 catalog = None
 
 """
@@ -49,10 +76,16 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        catalog = initCatalog()
+        loadData(catalog)
+        size = lt.size(catalog["UFOS"])
+        print("Total de avistamientos cargados: " + str(size))
 
     elif int(inputs[0]) == 2:
-        pass
-
+        tamaño = om.size(catalog["cities"])
+        print("La cantidad de nodos es de: " + str(tamaño))
+        altura = om.height(catalog["cities"])
+        print("La altura del arbo es de: "+ str(altura))
     else:
         sys.exit(0)
 sys.exit(0)
