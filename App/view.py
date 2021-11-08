@@ -34,8 +34,8 @@ def loadData(catalog):
     controller.loadData(catalog)
 
 # Requisito 1
-def avistamientosCiudad():
-    pass
+def avistamientosCiudad(catalog,ciudad):
+    return controller.avistamientosCiudad(catalog,ciudad)
 # Requisito 2
 def avistamientosDuracion():
     pass
@@ -80,12 +80,58 @@ while True:
         loadData(catalog)
         size = lt.size(catalog["UFOS"])
         print("Total de avistamientos cargados: " + str(size))
+        
+        print("\n")
+        print(chr(27)+"[1;44m"+"Primeros 5 y últimos 5 avistamientos cargados "+chr(27)+"[0;37m")
+        cuenta = 1
+        for i in range(1,11):
+            listaUfos = lt.getElement(catalog["UFOS"], cuenta)
+            print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+listaUfos["datetime"],
+                    chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+listaUfos["city"],
+                    chr(27)+"[1;34m"+", State: " + chr(27)+"[0;37m"+listaUfos["state"],
+                    chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+listaUfos["country"],
+                    chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+listaUfos["shape"],
+                    chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+listaUfos["duration (seconds)"],
+                    chr(27)+"[1;34m"+", Comments: " + chr(27)+"[0;37m"+listaUfos["comments"],
+                    chr(27)+"[1;34m"+", Date posted: " + chr(27)+"[0;37m"+listaUfos["date posted"]
+                    )
+            print("\n")
+            cuenta += 1
+            if cuenta == 6:
+                cuenta = size - 4
+
 
     elif int(inputs[0]) == 2:
         tamaño = om.size(catalog["cities"])
         print("La cantidad de nodos es de: " + str(tamaño))
         altura = om.height(catalog["cities"])
         print("La altura del arbo es de: "+ str(altura))
+
+        ciudad = input("Escriba el nombre de la ciudad: ")
+        avistamientos,listaCiudades = avistamientosCiudad(catalog,ciudad)
+        cantidad = om.size(avistamientos)
+        numeroCiudades = lt.size(listaCiudades)
+        print("El total de ciudades con reportes es de:", str(numeroCiudades))
+        print("Se han reportado" , str(cantidad) , "avistamientos en la ciudad")
+
+        print("\n")
+        print(chr(27)+"[1;44m"+"Primeros 3 y últimos 3 avistamientos de la cuidad "+chr(27)+"[0;37m")
+        contador = 0
+        for i in range(0,6):
+            if i <= 2:
+                pos = i
+            else:
+                pos = int(cantidad)-3+contador
+                contador += 1
+            llave = om.select(avistamientos,pos)
+            informacion = om.get(avistamientos,llave)["value"]
+            print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+            chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+            chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+            chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+            chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"]
+            )
+        
     else:
         sys.exit(0)
 sys.exit(0)

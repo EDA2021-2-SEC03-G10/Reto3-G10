@@ -41,13 +41,16 @@ def loadData(catalog):
 def loadUfo(catalog):
     ufoFile = cf.data_dir + "UFOS/UFOS-utf8-small.csv"
     input_file = csv.DictReader(open(ufoFile, encoding='utf-8'))
-    contador = 0
     for ufo in input_file:
-        cuantaActual = model.addUfo(catalog, ufo,contador) 
-        contador = cuantaActual
+        model.addUfo(catalog, ufo) 
+
          
 # Funciones para la carga de datos
 
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
+
+# Requisito 1
+def avistamientosCiudad(info,ciudad):
+    return model.avistamientosCiudad(info,ciudad)

@@ -50,12 +50,21 @@ def newCatalog():
 
     return info
 
-def addUfo(info,ufo,contador):
+def addUfo(info,ufo):
     lt.addLast(info['UFOS'], ufo)
-    if not(lt.isPresent(om.valueSet(info["cities"]),[0,ufo["city"]])):
-        om.put(info["cities"],contador,[0,ufo["city"]])
-        contador +=1
-    return contador
+
+def avistamientosCiudad(info,ciudad):
+    listaCiudades = lt.newList('SINGLE_LINKED')
+    for avistamiento in lt.iterator(info['UFOS']):
+        if not(lt.isPresent(listaCiudades,avistamiento["city"])):
+            lt.addLast(listaCiudades, avistamiento["city"])
+        if avistamiento["city"] == ciudad:
+            datos = avistamiento["datetime"].split(" ")
+            hora = (datos[1]).split(":")
+            fecha = (datos[0]).split("-")
+            tiempo = fecha + hora
+            om.put(info["cities"],tiempo,avistamiento)
+    return info["cities"],listaCiudades
 
 
 
