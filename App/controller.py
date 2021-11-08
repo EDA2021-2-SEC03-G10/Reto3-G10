@@ -43,7 +43,6 @@ def loadUfo(catalog):
     input_file = csv.DictReader(open(ufoFile, encoding='utf-8'))
     for ufo in input_file:
         model.addUfo(catalog, ufo) 
-
          
 # Funciones para la carga de datos
 
