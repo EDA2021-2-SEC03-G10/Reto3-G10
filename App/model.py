@@ -66,6 +66,23 @@ def avistamientosCiudad(info,ciudad):
             om.put(info["cities"],tiempo,avistamiento)
     return info["cities"],listaCiudades
 
+def avistamientos_zona(info,lat,long):
+    info_avistamiento= om.newMap(omaptype="RBT")
+    for avistamiento in lt.iterator(info["UFOS"]):
+        Latitud = float(avistamiento["latitude"])
+        Longitud = float(avistamiento["longitude"])
+        datos = avistamiento["datetime"].split(" ")
+        hora = (datos[1]).split(":")
+        fecha = (datos[0]).split("-")
+        tiempo = fecha + hora
+        if Latitud > lat[0] and Latitud < lat[1] and Longitud > long[0] and Longitud < long[1]:
+            om.put(info_avistamiento,[float(avistamiento["latitude"]),float(avistamiento["longitude"]),tiempo],avistamiento)
+    return info_avistamiento
+
+        
+
+
+
 
 
 # Funciones para agregar informacion al catalogo

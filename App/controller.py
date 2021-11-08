@@ -53,3 +53,6 @@ def loadUfo(catalog):
 # Requisito 1
 def avistamientosCiudad(info,ciudad):
     return model.avistamientosCiudad(info,ciudad)
+# Requisito 5
+def avistamientos_zona(info,lat,long):
+    return model.avistamientos_zona(info,lat,long)

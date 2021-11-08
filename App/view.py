@@ -46,8 +46,8 @@ def avistamientosSegunHora():
 def avistamientosRango():
     pass
 # Requisito 5
-def avistamientosZona():
-    pass
+def avistamientos_zona(catalog,lat,long):
+    return controller.avistamientos_zona(catalog,lat,long)
 
 
 
@@ -131,7 +131,60 @@ while True:
             chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
             chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"]
             )
+    elif int(inputs[0]) == 6:
+        lat_min = float(input("Ingrese la latitud mínima: "))
+        lat_max = float(input("Ingrese la latitud máxima: "))
+        long_min = float(input("Ingrese la longitud mínima: "))
+        long_max = float(input("Ingrese la longitud máxima: "))
+        lat =[lat_min,lat_max]
+        long= [long_min,long_max]
+        Datos = avistamientos_zona(catalog,lat,long)
+        tamaño = om.size(Datos)
+        print("El número de avistamientos de la zona es: " + str(tamaño))
+        print("\n")
+        print(chr(27)+"[1;44m"+"Los Primeros 5 y últimos 5 avistamientos de la zona: "+chr(27)+"[0;37m")
+        print("\n")
         
+        contador = 0
+        if tamaño >= 10:
+
+            for i in range(0,10):
+                if i <= 4:
+                    pos = i
+                else:
+                    pos = int(tamaño)-5+contador
+                    contador += 1
+                llave = om.select(Datos,pos)
+                informacion = om.get(Datos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", longitude: " + chr(27)+"[0;37m"+informacion["longitude"],
+                chr(27)+"[1;34m"+", latitude: " + chr(27)+"[0;37m"+informacion["latitude"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+                print("\n")
+
+        elif tamaño != 0:
+
+            for i in range(0,tamaño):
+                llave = om.select(Datos,i)
+                informacion = om.get(Datos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", longitude: " + chr(27)+"[0;37m"+informacion["longitude"],
+                chr(27)+"[1;34m"+", latitude: " + chr(27)+"[0;37m"+informacion["latitude"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+                print("\n")
+        else:
+            print("No se encuentran avistamientos en el rango")
+
+
+
+            
     else:
+
         sys.exit(0)
 sys.exit(0)
