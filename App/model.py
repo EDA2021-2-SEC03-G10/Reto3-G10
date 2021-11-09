@@ -53,6 +53,9 @@ def newCatalog():
 def addUfo(info,ufo):
     lt.addLast(info['UFOS'], ufo)
 
+# Funciones de consulta
+
+# Requisito 1
 def avistamientosCiudad(info,ciudad):
     listaCiudades = lt.newList('SINGLE_LINKED')
     for avistamiento in lt.iterator(info['UFOS']):
@@ -66,8 +69,29 @@ def avistamientosCiudad(info,ciudad):
             om.put(info["cities"],tiempo,avistamiento)
     return info["cities"],listaCiudades
 
+# Requisito 2
+def avistamientosDuracion(info,segundos):
+    AvistamientosPorDuracion = info_avistamiento= om.newMap(omaptype="RBT")
+    duracionMaxima = -1
+    for avistamiento in lt.iterator(info["UFOS"]):
+        tiempo = float(avistamiento["duration (seconds)"])
+        if tiempo > duracionMaxima:
+            duracionMaxima = tiempo
+        if segundos[0] <= tiempo and segundos[1] >= tiempo:
+            om.put(AvistamientosPorDuracion,[tiempo,avistamiento["city"],avistamiento["country"],avistamiento["datetime"]],avistamiento)
+
+    contador = 0
+    for avistamiento in lt.iterator(info["UFOS"]):
+        tiempo = float(avistamiento["duration (seconds)"])
+        if tiempo == duracionMaxima:
+            contador += 1
+
+    return AvistamientosPorDuracion,duracionMaxima,contador
+
+
+# Requisito 5
 def avistamientos_zona(info,lat,long):
-    info_avistamiento= om.newMap(omaptype="RBT")
+    info_avistamiento = om.newMap(omaptype="RBT")
     for avistamiento in lt.iterator(info["UFOS"]):
         Latitud = float(avistamiento["latitude"])
         Longitud = float(avistamiento["longitude"])
@@ -88,8 +112,6 @@ def avistamientos_zona(info,lat,long):
 # Funciones para agregar informacion al catalogo
 
 # Funciones para creacion de datos
-
-# Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 

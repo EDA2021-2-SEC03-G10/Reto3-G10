@@ -37,8 +37,8 @@ def loadData(catalog):
 def avistamientosCiudad(catalog,ciudad):
     return controller.avistamientosCiudad(catalog,ciudad)
 # Requisito 2
-def avistamientosDuracion():
-    pass
+def avistamientosDuracion(catalog,segundos):
+    return controller.avistamientosDuracion(catalog,segundos)
 # Requisito 3
 def avistamientosSegunHora():
     pass
@@ -131,6 +131,61 @@ while True:
             chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
             chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"]
             )
+
+    elif int(inputs[0]) == 3:
+        segMin = float(input("Ingrese el tiempo minimo en segundos: "))
+        segMax = float(input("Ingrese el tiempo maximo en segundos: "))
+        mapPorDuracion, duracionMaxima, numMayorDuracion = avistamientosDuracion(catalog,[segMin,segMax])
+        tamañoMap = int(om.size(mapPorDuracion))
+        print("\n")
+        print("La duracion maxima fue: "+ str(duracionMaxima))
+        print("El numero total de avistamientos con duracion maxima es de: "+ str(numMayorDuracion))
+        print("La cantidad de avistamientos en el rango es: "+ str(tamañoMap))
+        print("\n")
+
+        print(chr(27)+"[1;44m"+"Primeros 3 y últimos 3 avistamientos por duracion "+chr(27)+"[0;37m")
+        print("\n")
+
+        cuenta = 0
+        if tamañoMap >= 6:
+
+            for i in range(0,6):
+                if i <= 2:
+                    pos = i
+                else:
+                    pos = int(tamañoMap)-3+cuenta
+                    cuenta += 1
+                llaveReq2 = om.select(mapPorDuracion,pos)
+                informacionReq2 = om.get(mapPorDuracion,llaveReq2)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacionReq2["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacionReq2["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacionReq2["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacionReq2["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacionReq2["shape"])
+                print("\n")
+
+        elif tamañoMap != 0:
+
+            for i in range(0,tamañoMap):
+                llaveReq2 = om.select(mapPorDuracion,i)
+                informacionReq2 = om.get(mapPorDuracion,llaveReq2)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacionReq2["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacionReq2["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacionReq2["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacionReq2["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacionReq2["shape"])
+                print("\n")
+
+        else:
+            print("No se encontraron avistamientos en el rango")
+
+
+    elif int(inputs[0]) == 4:
+        pass
+
+    elif int(inputs[0]) == 5:
+        pass
+
     elif int(inputs[0]) == 6:
         lat_min = float(input("Ingrese la latitud mínima: "))
         lat_max = float(input("Ingrese la latitud máxima: "))
