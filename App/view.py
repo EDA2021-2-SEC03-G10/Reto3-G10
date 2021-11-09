@@ -83,9 +83,9 @@ while True:
         
         print("\n")
         print(chr(27)+"[1;44m"+"Primeros 5 y últimos 5 avistamientos cargados "+chr(27)+"[0;37m")
-        cuenta = 1
+        cuenta0 = 1
         for i in range(1,11):
-            listaUfos = lt.getElement(catalog["UFOS"], cuenta)
+            listaUfos = lt.getElement(catalog["UFOS"], cuenta0)
             print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+listaUfos["datetime"],
                     chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+listaUfos["city"],
                     chr(27)+"[1;34m"+", State: " + chr(27)+"[0;37m"+listaUfos["state"],
@@ -96,41 +96,59 @@ while True:
                     chr(27)+"[1;34m"+", Date posted: " + chr(27)+"[0;37m"+listaUfos["date posted"]
                     )
             print("\n")
-            cuenta += 1
-            if cuenta == 6:
-                cuenta = size - 4
+            cuenta0 += 1
+            if cuenta0 == 6:
+                cuenta0 = size - 4
 
 
     elif int(inputs[0]) == 2:
-        tamaño = om.size(catalog["cities"])
-        print("La cantidad de nodos es de: " + str(tamaño))
-        altura = om.height(catalog["cities"])
-        print("La altura del arbo es de: "+ str(altura))
-
         ciudad = input("Escriba el nombre de la ciudad: ")
         avistamientos,listaCiudades = avistamientosCiudad(catalog,ciudad)
         cantidad = om.size(avistamientos)
         numeroCiudades = lt.size(listaCiudades)
         print("El total de ciudades con reportes es de:", str(numeroCiudades))
         print("Se han reportado" , str(cantidad) , "avistamientos en la ciudad")
+        print("\n")
+
+        cuenta1 = 0
+        if cantidad >= 6:
+            print(chr(27)+"[1;44m"+"Primeros 3 y últimos 3 avistamientos de la cuidad "+chr(27)+"[0;37m")
+            print("\n")
+            for i in range(0,6):
+                if i <= 2:
+                    pos = i
+                else:
+                    pos = int(cantidad)-3+cuenta1
+                    cuenta1 += 1
+                llave = om.select(avistamientos,pos)
+                informacion = om.get(avistamientos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+
+        elif cantidad != 0:
+            print(chr(27)+"[1;44m"+"Avistamientos de la cuidad "+chr(27)+"[0;37m")
+            print("\n")
+            for i in range(0,cantidad):
+                llave = om.select(avistamientos,i)
+                informacion = om.get(avistamientos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+                print("\n")
+
+        else:
+            print("No se encontraron avistamientos en el rango")
 
         print("\n")
-        print(chr(27)+"[1;44m"+"Primeros 3 y últimos 3 avistamientos de la cuidad "+chr(27)+"[0;37m")
-        contador = 0
-        for i in range(0,6):
-            if i <= 2:
-                pos = i
-            else:
-                pos = int(cantidad)-3+contador
-                contador += 1
-            llave = om.select(avistamientos,pos)
-            informacion = om.get(avistamientos,llave)["value"]
-            print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
-            chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
-            chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
-            chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
-            chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"]
-            )
+        tamaño = om.size(avistamientos)
+        print("La cantidad de nodos es de: " + str(tamaño))
+        altura = om.height(avistamientos)
+        print("La altura del arbol es de: "+ str(altura))
 
     elif int(inputs[0]) == 3:
         segMin = float(input("Ingrese el tiempo minimo en segundos: "))
@@ -143,18 +161,16 @@ while True:
         print("La cantidad de avistamientos en el rango es: "+ str(tamañoMap))
         print("\n")
 
-        print(chr(27)+"[1;44m"+"Primeros 3 y últimos 3 avistamientos por duracion "+chr(27)+"[0;37m")
-        print("\n")
-
-        cuenta = 0
+        cuentaReq2 = 0
         if tamañoMap >= 6:
-
+            print(chr(27)+"[1;44m"+"Primeros 3 y últimos 3 avistamientos por duracion "+chr(27)+"[0;37m")
+            print("\n")
             for i in range(0,6):
                 if i <= 2:
                     pos = i
                 else:
-                    pos = int(tamañoMap)-3+cuenta
-                    cuenta += 1
+                    pos = int(tamañoMap)-3+cuentaReq2
+                    cuentaReq2 += 1
                 llaveReq2 = om.select(mapPorDuracion,pos)
                 informacionReq2 = om.get(mapPorDuracion,llaveReq2)["value"]
                 print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacionReq2["datetime"],
@@ -165,7 +181,8 @@ while True:
                 print("\n")
 
         elif tamañoMap != 0:
-
+            print(chr(27)+"[1;44m"+"Avistamientos por duracion "+chr(27)+"[0;37m")
+            print("\n")
             for i in range(0,tamañoMap):
                 llaveReq2 = om.select(mapPorDuracion,i)
                 informacionReq2 = om.get(mapPorDuracion,llaveReq2)["value"]
@@ -197,12 +214,11 @@ while True:
         tamaño = om.size(Datos)
         print("El número de avistamientos de la zona es: " + str(tamaño))
         print("\n")
-        print(chr(27)+"[1;44m"+"Los Primeros 5 y últimos 5 avistamientos de la zona: "+chr(27)+"[0;37m")
-        print("\n")
         
         contador = 0
         if tamaño >= 10:
-
+            print(chr(27)+"[1;44m"+"Los Primeros 5 y últimos 5 avistamientos de la zona: "+chr(27)+"[0;37m")
+            print("\n")
             for i in range(0,10):
                 if i <= 4:
                     pos = i
@@ -221,7 +237,8 @@ while True:
                 print("\n")
 
         elif tamaño != 0:
-
+            print(chr(27)+"[1;44m"+"Avistamientos de la zona: "+chr(27)+"[0;37m")
+            print("\n")
             for i in range(0,tamaño):
                 llave = om.select(Datos,i)
                 informacion = om.get(Datos,llave)["value"]
