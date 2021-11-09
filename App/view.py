@@ -59,13 +59,16 @@ operación solicitada
 """
 
 def printMenu():
+    print(chr(27)+"[1;32m")
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
-    print("2- Contar los avistamientos en una ciudad")
-    print("3- Contar los avistamientos por duración")
-    print("4- Contar avistamientos por Hora/Minutos del día")
-    print("5- Contar los avistamientos en un rango de fechas")
-    print("6- Contar los avistamientos de una Zona Geográfica")
+    print(chr(27)+"[0;37m")
+    print(chr(27)+"[4;32m"+"1" + chr(27)+ "[0;37m" + "- Cargar información en el catálogo")
+    print(chr(27)+"[4;32m"+ "2" + chr(27)+ "[0;37m" + "- Contar los avistamientos en una ciudad")
+    print(chr(27)+"[4;32m"+ "3" + chr(27)+ "[0;37m" + "- Contar los avistamientos por duración")
+    print(chr(27)+"[4;32m"+ "4" + chr(27)+ "[0;37m" + "- Contar avistamientos por Hora/Minutos del día")
+    print(chr(27)+"[4;32m"+ "5" + chr(27)+ "[0;37m" + "- Contar los avistamientos en un rango de fechas")
+    print(chr(27)+"[4;32m"+ "6" + chr(27)+ "[0;37m" + "- Contar los avistamientos de una Zona Geográfica")
+
 catalog = None
 
 """
