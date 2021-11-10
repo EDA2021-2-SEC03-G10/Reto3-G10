@@ -1,4 +1,4 @@
-"""
+﻿"""
  * Copyright 2020, Departamento de sistemas y Computación,
  * Universidad de Los Andes
  *
@@ -39,7 +39,7 @@ def loadData(catalog):
     loadUfo(catalog)
 
 def loadUfo(catalog):
-    ufoFile = cf.data_dir + "UFOS/UFOS-utf8-small.csv"
+    ufoFile = cf.data_dir + "UFOS/UFOS-utf8-large.csv"
     input_file = csv.DictReader(open(ufoFile, encoding='utf-8'))
     for ufo in input_file:
         model.addUfo(catalog, ufo) 
