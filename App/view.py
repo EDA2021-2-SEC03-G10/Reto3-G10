@@ -1,4 +1,4 @@
-﻿"""
+"""
  * Copyright 2020, Departamento de sistemas y Computación, Universidad
  * de Los Andes
  *
@@ -41,11 +41,11 @@ def avistamientosCiudad(catalog,ciudad):
 def avistamientosDuracion(catalog,segundos):
     return controller.avistamientosDuracion(catalog,segundos)
 # Requisito 3
-def avistamientosSegunHora():
-    pass
+def avistamientos_tiempo(info,tiempo_min,tiempo_max):
+    return controller.avistamientos_tiempo(info,tiempo_min,tiempo_max)
 # Requisito 4
-def avistamientosRango():
-    pass
+def avistamientosRango(info,fecha_min,fecha_max):
+    return controller.avistamientosRango(info,fecha_min,fecha_max)
 # Requisito 5
 def avistamientos_zona(catalog,lat,long):
     return controller.avistamientos_zona(catalog,lat,long)
@@ -202,10 +202,105 @@ while True:
 
 
     elif int(inputs[0]) == 4:
-        pass
+     
+        tiempo_min =(input("Ingrese el tiempo mínimo en HH: MM: "))
+        Hora1, minutos1 = map(int, tiempo_min.split(':'))
+        tiempo_min = [Hora1,minutos1]
+        tiempo_max =(input("Ingrese el tiempo máximo en HH: MM: "))
+        Hora2, minutos2 = map(int, tiempo_max.split(':'))
+        tiempo_max = [Hora2,minutos2]
+        Avistamientos, tardio, numtardio = avistamientos_tiempo(catalog,tiempo_min,tiempo_max)
+        cantidad = int(om.size(Avistamientos))
+        print("\n")
+        print("El avistamiento más tardío fue a las: "+ str(tardio))
+        print("\n")
+        print("El numero total de avistamientos más tardíos fueron: "+ str(numtardio))
+        print("\n")
+        print("El número de avistamientos entre el rango de tiempo es: " + str(cantidad))
+        print("\n")     
+        cuenta1 = 0
+        if cantidad >= 6:
+            print(chr(27)+"[1;44m"+"Primeros 3 y últimos 3 avistamientos en el rango son: "+chr(27)+"[0;37m")
+            print("\n")
+            for i in range(0,6):
+                if i <= 2:
+                    pos = i
+                else:
+                    pos = int(cantidad)-3+cuenta1
+                    cuenta1 += 1
+                llave = om.select(Avistamientos,pos)
+                informacion = om.get(Avistamientos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+                print("\n")
+        elif cantidad != 0:
+            print(chr(27)+"[1;44m"+"Avistamientos del rango "+chr(27)+"[0;37m")
+            print("\n")
+            for i in range(0,cantidad):
+                llave = om.select(Avistamientos,i)
+                informacion = om.get(Avistamientos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+                print("\n")
+        else:
+            print("No se encontraron avistamientos en el rango")
+
 
     elif int(inputs[0]) == 5:
-        pass
+
+        fecha_min =(input("Ingrese la fecha mínimo en AAAA-MM-DD: "))
+        Año1, mes1,día1 = map(int, fecha_min.split('-'))
+        fecha_min = [Año1, mes1,día1]
+        fecha_max =(input("Ingrese la fecha máximo en AAAA-MM-DD: "))
+        Año2, mes2,día2 = map(int, fecha_max.split('-'))
+        fecha_max = [Año2, mes2,día2]
+        Avistamientos,antigua,conteo = avistamientosRango(catalog,fecha_min,fecha_max)
+        cantidad = int(om.size(Avistamientos))
+        print("\n")
+        print("La fecha más antigua de un avistamiento es: "+ str(antigua))
+        print("\n")
+        print("El numero total de avistamientos más tardíos fueron: "+ str(conteo))
+        print("\n")
+        print("El número de avistamientos entre el rango de tiempo es de: " + str(cantidad))
+        print("\n")
+        cuenta1 = 0
+        if cantidad >= 6:
+            print(chr(27)+"[1;44m"+"Primeros 3 y últimos 3 avistamientos en el rango son: "+chr(27)+"[0;37m")
+            print("\n")
+            for i in range(0,6):
+                if i <= 2:
+                    pos = i
+                else:
+                    pos = int(cantidad)-3+cuenta1
+                    cuenta1 += 1
+                llave = om.select(Avistamientos,pos)
+                informacion = om.get(Avistamientos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+                print("\n")
+        elif cantidad != 0:
+            print(chr(27)+"[1;44m"+"Avistamientos del rango "+chr(27)+"[0;37m")
+            print("\n")
+            for i in range(0,cantidad):
+                llave = om.select(Avistamientos,i)
+                informacion = om.get(Avistamientos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+                print("\n")
+        else:
+            print("No se encontraron avistamientos en el rango")     
 
     elif int(inputs[0]) == 6:
         lat_min = float(input("Ingrese la latitud mínima: "))
