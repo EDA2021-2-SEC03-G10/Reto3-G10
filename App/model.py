@@ -107,7 +107,7 @@ def avistamientos_tiempo(info,tiempo_min,tiempo_max):
             tardio= tiempo
 
         if tiempo >= tiempo_min and tiempo <= tiempo_max:
-                om.put(Avistamientos,[tiempo,dato],avistamiento)
+                om.put(Avistamientos,[tiempo,dato,avistamiento["comments"]],avistamiento)
 
     for avistamiento in lt.iterator(info["UFOS"]):
         datos = avistamiento["datetime"].split(" ")
