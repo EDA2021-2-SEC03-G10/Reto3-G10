@@ -1,4 +1,4 @@
-﻿"""
+"""
  * Copyright 2020, Departamento de sistemas y Computación,
  * Universidad de Los Andes
  *
@@ -56,6 +56,12 @@ def avistamientosCiudad(info,ciudad):
 # Requisito 2
 def avistamientosDuracion(catalog,segundos):
     return model.avistamientosDuracion(catalog,segundos)
+# Requisito 3
+def avistamientos_tiempo(info,tiempo_min,tiempo_max):
+    return model.avistamientos_tiempo(info,tiempo_min,tiempo_max)
+# Requisito 4
+def avistamientosRango(info,fecha_min,fecha_max):
+    return model.avistamientosRango(info,fecha_min,fecha_max)
 # Requisito 5
 def avistamientos_zona(info,lat,long):
     return model.avistamientos_zona(info,lat,long)
