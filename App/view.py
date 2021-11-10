@@ -253,10 +253,10 @@ while True:
 
     elif int(inputs[0]) == 5:
 
-        fecha_min =(input("Ingrese el tiempo mínimo en AAAA-MM-DD: "))
+        fecha_min =(input("Ingrese la fecha mínimo en AAAA-MM-DD: "))
         Año1, mes1,día1 = map(int, fecha_min.split('-'))
         fecha_min = [Año1, mes1,día1]
-        fecha_max =(input("Ingrese el tiempo máximo en AAAA-MM-DD: "))
+        fecha_max =(input("Ingrese la fecha máximo en AAAA-MM-DD: "))
         Año2, mes2,día2 = map(int, fecha_max.split('-'))
         fecha_max = [Año2, mes2,día2]
         Avistamientos,antigua,conteo = avistamientosRango(catalog,fecha_min,fecha_max)
