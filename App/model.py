@@ -88,7 +88,29 @@ def avistamientosDuracion(info,segundos):
             contador += 1
 
     return AvistamientosPorDuracion,duracionMaxima,contador
+   
+#Requisito 3
+def avistamientos_tiempo(info,tiempo_min,tiempo_max):
 
+    Avistamientos= om.newMap(omaptype="RBT")
+
+    for avistamiento in lt.iterator(info["UFOS"]):
+
+        datos = avistamiento["datetime"].split(" ")
+        tiempos = (datos[1]).split(":")
+        hora=int((tiempos[0]))
+        minutos = int((tiempos[1]))
+        tiempo = [hora,minutos]
+
+        fechas= (datos[0]).split("-")
+        año= int((fechas[0]))
+        mes= int((fechas[1]))
+        día= int((fechas[2]))
+        fecha=[año,mes,día]
+        
+        if tiempo >= tiempo_min and tiempo <= tiempo_max:
+                om.put(Avistamientos,[avistamiento["comments"]],avistamiento)          
+    return Avistamientos
 
 # Requisito 5
 def avistamientos_zona(info,lat,long):
