@@ -1,4 +1,4 @@
-﻿"""
+"""
  * Copyright 2020, Departamento de sistemas y Computación,
  * Universidad de Los Andes
  *
@@ -72,7 +72,7 @@ def avistamientosCiudad(info,ciudad):
 
 # Requisito 2
 def avistamientosDuracion(info,segundos):
-    AvistamientosPorDuracion = info_avistamiento= om.newMap(omaptype="RBT")
+    AvistamientosPorDuracion = om.newMap(omaptype="RBT")
     duracionMaxima = -1
     for avistamiento in lt.iterator(info["UFOS"]):
         tiempo = float(avistamiento["duration (seconds)"])
@@ -91,26 +91,74 @@ def avistamientosDuracion(info,segundos):
    
 #Requisito 3
 def avistamientos_tiempo(info,tiempo_min,tiempo_max):
-
     Avistamientos= om.newMap(omaptype="RBT")
-
+    tardio= [-1,-1]
+    contador = 0
     for avistamiento in lt.iterator(info["UFOS"]):
-
         datos = avistamiento["datetime"].split(" ")
         tiempos = (datos[1]).split(":")
+        fecha = (datos[0]).split("-")
         hora=int((tiempos[0]))
         minutos = int((tiempos[1]))
         tiempo = [hora,minutos]
+        dato = fecha+tiempos
 
+        if tiempo > tardio:
+            tardio= tiempo
+
+        if tiempo >= tiempo_min and tiempo <= tiempo_max:
+                om.put(Avistamientos,[dato,avistamiento["comments"]],avistamiento)
+
+    for avistamiento in lt.iterator(info["UFOS"]):
+        datos = avistamiento["datetime"].split(" ")
+        tiempos = (datos[1]).split(":")
+        fecha = (datos[0]).split("-")
+        hora=int((tiempos[0]))
+        minutos = int((tiempos[1]))
+        tiempo = [hora,minutos]
+        if tardio ==tiempo:
+            contador +=1
+
+    tardio = ":".join([str(item)for item in tardio])
+    return Avistamientos,tardio,contador
+
+#Requisito 4
+
+def avistamientosRango(info,fecha_min,fecha_max):
+
+    AvistamientosRango= om.newMap(omaptype="RBT")
+    antigua= [9999,99,99]
+    conteo=0
+    for avistamiento in lt.iterator(info["UFOS"]):
+        datos = avistamiento["datetime"].split(" ")
         fechas= (datos[0]).split("-")
+        tiempos = (datos[1]).split(":")
         año= int((fechas[0]))
         mes= int((fechas[1]))
         día= int((fechas[2]))
         fecha=[año,mes,día]
-        
-        if tiempo >= tiempo_min and tiempo <= tiempo_max:
-                om.put(Avistamientos,[avistamiento["comments"]],avistamiento)          
-    return Avistamientos
+        dato= fechas+tiempos
+
+        if fecha < antigua:
+            antigua= fecha
+        if fecha >= fecha_min and fecha <= fecha_max:
+                om.put(AvistamientosRango,[dato,avistamiento["comments"]],avistamiento)
+
+    for avistamiento in lt.iterator(info["UFOS"]):
+        datos = avistamiento["datetime"].split(" ")
+        fechas= (datos[0]).split("-")
+        tiempos = (datos[1]).split(":")
+        año= int((fechas[0]))
+        mes= int((fechas[1]))
+        día= int((fechas[2]))
+        fecha=[año,mes,día]
+        if antigua==fecha:
+            conteo +=1
+    antigua = "-".join([str(item)for item in antigua])
+
+
+    return AvistamientosRango,antigua,conteo
+
 
 # Requisito 5
 def avistamientos_zona(info,lat,long):
@@ -139,4 +187,3 @@ def avistamientos_zona(info,lat,long):
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
-
