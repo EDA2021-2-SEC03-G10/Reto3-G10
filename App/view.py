@@ -201,7 +201,47 @@ while True:
 
 
     elif int(inputs[0]) == 4:
-        pass
+     
+        tiempo_min =(input("Ingrese el tiempo mínimo en HH: MM: "))
+        Hora1, minutos1 = map(int, tiempo_min.split(':'))
+        tiempo_min = [Hora1,minutos1]
+        tiempo_max =(input("Ingrese el tiempo máximo en HH: MM: "))
+        Hora2, minutos2 = map(int, tiempo_max.split(':'))
+        tiempo_max = [Hora2,minutos2]
+        Avistamientos = avistamientos_tiempo(catalog,tiempo_min,tiempo_max)
+        cantidad = om.size(Avistamientos)
+        print("El número de avistamientos entre el rango de tiempo es: " + str(cantidad))
+        print("\n")
+        
+        cuenta1 = 0
+        if cantidad >= 6:
+            print(chr(27)+"[1;44m"+"Primeros 3 y últimos 3 avistamientos de la cuidad "+chr(27)+"[0;37m")
+            print("\n")
+            for i in range(0,6):
+                if i <= 2:
+                    pos = i
+                else:
+                    pos = int(cantidad)-3+cuenta1
+                    cuenta1 += 1
+                llave = om.select(Avistamientos,pos)
+                informacion = om.get(Avistamientos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+                print("\n")
+        elif cantidad != 0:
+            for i in range(0,cantidad):
+                llave = om.select(Avistamientos,i)
+                informacion = om.get(Avistamientos,llave)["value"]
+                print(chr(27)+"[1;34m"+"Datetime: " + chr(27)+"[0;37m"+informacion["datetime"],
+                chr(27)+"[1;34m"+", City: " + chr(27)+"[0;37m"+informacion["city"],
+                chr(27)+"[1;34m"+", Country: " + chr(27)+"[0;37m"+informacion["country"],
+                chr(27)+"[1;34m"+", Duration (seconds): " + chr(27)+"[0;37m"+informacion["duration (seconds)"],
+                chr(27)+"[1;34m"+", Shape: " + chr(27)+"[0;37m"+informacion["shape"])
+                print("\n")
+
 
     elif int(inputs[0]) == 5:
         pass
