@@ -211,8 +211,10 @@ while True:
         Avistamientos, tardio, numtardio = avistamientos_tiempo(catalog,tiempo_min,tiempo_max)
         cantidad = int(om.size(Avistamientos))
         print("\n")
-        print("El avistamiento más tardío fue a : "+ str(tardio))
+        print("El avistamiento más tardío fue a las: "+ str(tardio))
+        print("\n")
         print("El numero total de avistamientos más tardíos fueron: "+ str(numtardio))
+        print("\n")
         print("El número de avistamientos entre el rango de tiempo es: " + str(cantidad))
         print("\n")     
         cuenta1 = 0
@@ -259,8 +261,11 @@ while True:
         fecha_max = [Año2, mes2,día2]
         Avistamientos,antigua,conteo = avistamientosRango(catalog,fecha_min,fecha_max)
         cantidad = int(om.size(Avistamientos))
+        print("\n")
         print("La fecha más antigua de un avistamiento es: "+ str(antigua))
+        print("\n")
         print("El numero total de avistamientos más tardíos fueron: "+ str(conteo))
+        print("\n")
         print("El número de avistamientos entre el rango de tiempo es de: " + str(cantidad))
         print("\n")
         cuenta1 = 0
