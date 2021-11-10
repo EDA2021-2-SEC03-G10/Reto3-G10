@@ -58,21 +58,21 @@ def addUfo(info,ufo):
 # Requisito 1
 def avistamientosCiudad(info,ciudad):
     AvistamientosCiudad = om.newMap(omaptype="RBT")
-    listaCiudades = lt.newList('SINGLE_LINKED')
+    mapCiudades = mp.newMap(160,maptype='PROBING',loadfactor=0.50)
     for avistamiento in lt.iterator(info['UFOS']):
-        if not(lt.isPresent(listaCiudades,avistamiento["city"])):
-            lt.addLast(listaCiudades, avistamiento["city"])
+        if not(mp.contains(mapCiudades, avistamiento["city"])):
+            mp.put(mapCiudades, avistamiento["city"],0)
         if avistamiento["city"] == ciudad:
             datos = avistamiento["datetime"].split(" ")
             hora = (datos[1]).split(":")
             fecha = (datos[0]).split("-")
             tiempo = fecha + hora
             om.put(AvistamientosCiudad,tiempo,avistamiento)
-    return AvistamientosCiudad,listaCiudades
+    return AvistamientosCiudad,mapCiudades
 
 # Requisito 2
 def avistamientosDuracion(info,segundos):
-    AvistamientosPorDuracion = info_avistamiento= om.newMap(omaptype="RBT")
+    AvistamientosPorDuracion = om.newMap(omaptype="RBT")
     duracionMaxima = -1
     for avistamiento in lt.iterator(info["UFOS"]):
         tiempo = float(avistamiento["duration (seconds)"])

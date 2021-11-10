@@ -24,6 +24,7 @@ import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
 from DISClib.ADT import orderedmap as om
 assert cf
 
@@ -108,7 +109,7 @@ while True:
         ciudad = input("Escriba el nombre de la ciudad: ")
         avistamientos,listaCiudades = avistamientosCiudad(catalog,ciudad)
         cantidad = om.size(avistamientos)
-        numeroCiudades = lt.size(listaCiudades)
+        numeroCiudades = mp.size(listaCiudades)
         print("El total de ciudades con reportes es de:", str(numeroCiudades))
         print("Se han reportado" , str(cantidad) , "avistamientos en la ciudad")
         print("\n")
